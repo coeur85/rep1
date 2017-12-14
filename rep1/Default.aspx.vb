@@ -42,7 +42,7 @@
                 cbl_branches.Items.RemoveAt(0)
 
 
-            Case BrachesEnum.AboSloiman, BrachesEnum.Manshya, BrachesEnum.Wardian, BrachesEnum.Mergem
+            Case Else '  Case BrachesEnum.AboSloiman, BrachesEnum.Manshya, BrachesEnum.Wardian, BrachesEnum.Mergem
                 cbl_branches.Visible = False
                 cbl_repItems.DataSource = g.getRepItem(dd_branch.SelectedValue)
                 cbl_repItems.DataTextField = "RepName"
@@ -89,7 +89,7 @@
                 Next
 
 
-            Case BrachesEnum.AboSloiman, BrachesEnum.Manshya, BrachesEnum.Wardian, BrachesEnum.Mergem
+            Case Else ' Case BrachesEnum.AboSloiman, BrachesEnum.Manshya, BrachesEnum.Wardian, BrachesEnum.Mergem
                 rep_rep.isHqBranch = False
                 For i2 = 0 To cbl_repItems.Items.Count
                     If i2 = cbl_repItems.Items.Count Then Exit For
@@ -127,6 +127,7 @@
             br.Add(int.Manshya)
             br.Add(int.Wardian)
             br.Add(int.Mergem)
+            br.Add(int.Falaky)
             Return br
         End Get
     End Property

@@ -60,6 +60,16 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_sales"))
             getRepItem.Add(New ItemName("branch_stock_balance"))
 
+        ElseIf value = BrachesEnum.Falaky Then
+            getRepItem.Add(New ItemName("branch_account"))
+            getRepItem.Add(New ItemName("branch_order"))
+            getRepItem.Add(New ItemName("branch_order_items"))
+            getRepItem.Add(New ItemName("branch_inventory"))
+            getRepItem.Add(New ItemName("branch_pur_request"))
+            getRepItem.Add(New ItemName("branch_pur_request_items"))
+            getRepItem.Add(New ItemName("branch_balance"))
+            getRepItem.Add(New ItemName("branch_sales"))
+
         End If
 
     End Function
@@ -265,6 +275,37 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 202 and posting = 1  "))
                     getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 202 "))
             End Select
+
+
+        ElseIf br = BrachesEnum.Falaky Then
+            Select Case repName
+                Case "branch_account"
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 504"))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det_local", "WHERE branch = 504"))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 504 and   [rev_flag] = 1"))
+                    getTablesNames.Add(New TablesNames("acc_trn_det", "WHERE location  = 504  and journal_type in (2,8,4) and doctype not in (2010,2050)"))
+                    getTablesNames.Add(New TablesNames("acc_trn_hed", "WHERE location = 504  and journal_type in (2,8,4) and doctype not in (2010,2050) and [review_flag] = 1"))
+                Case "branch_inventory"
+                    getTablesNames.Add(New TablesNames("stk_inventory", "WHERE branch = 504 "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_items", "WHERE branch = 504 "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_prepare", "WHERE branch = 504 "))
+                Case "branch_order"
+                    getTablesNames.Add(New TablesNames("stk_order", "WHERE branch = 504   and posting = 1"))
+                Case "branch_order_items"
+                    getTablesNames.Add(New TablesNames("stk_order_items", "WHERE branch = 504 "))
+                Case "branch_pur_request"
+                    getTablesNames.Add(New TablesNames("pur_request", "WHERE branch =504 and doctype = 1060 and [review] = 1 "))
+                Case "branch_pur_request_items"
+                    getTablesNames.Add(New TablesNames("pur_request_items", "WHERE branch =504 and doctype = 1060"))
+                Case "branch_sales"
+                    getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 504  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 504  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 504 "))
+                Case "branch_balance"
+                    getTablesNames.Add(New TablesNames("stk_mtod", "WHERE branch = 504 and  doctype =0  and transyear >= 2017"))
+                    getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 504 and  doctype =2913 "))
+            End Select
+
         End If
 
 
@@ -292,7 +333,7 @@ Public Class GetClass
         getsys_item_prices = New TablesNames
 
         Select Case br.ID
-            Case 503, 501
+            Case 503, 501, 504
                 getsys_item_prices.TableName = "sys_item_prices"
                 getsys_item_prices.WhereCondtion = "WHERE [pricetype] = 1"
             Case 502
@@ -362,6 +403,19 @@ Public Class GetClass
 
 
         End Function
+        Public Overloads Function Falaky() As BranchsClass
+            Falaky = New BranchsClass With {
+                .BranchName = "Falaky",
+                .Connection = New SqlConnection("Data Source=falak-db01;Initial Catalog=Retail;Persist Security Info=True;User ID=sa;Password=retipr"),
+                .DBname = "Retail",
+                .ServerName = "falak-db01",
+             .ID = 504,
+             .CodeName = "falak"}
+
+
+
+        End Function
+
         Public Function withID(id As Int16) As BranchsClass
             Select Case id
                 Case 502
@@ -372,6 +426,8 @@ Public Class GetClass
                     Return AboSliman()
                 Case 202
                     Return Mergem()
+                Case 504
+                    Return Falaky()
                 Case Else
                     Return Nothing
 
@@ -385,15 +441,19 @@ Public Class GetClass
 
         Dim sc As New SqlCommand("select count(*) from [serverName].[dbName].[dbo].[tableName]",
                                                            (b.Connection))
+        Try
+            If tableName.Trim.Contains("[") Or tableName.Trim.Contains("]") Then
+                tableName = tableName.Trim
+            Else
+                tableName = "[" + tableName.Trim + "]"
+            End If
+            sc.CommandText = sc.CommandText.Replace("serverName", b.ServerName)
+            sc.CommandText = sc.CommandText.Replace("dbName", b.DBname)
+            sc.CommandText = sc.CommandText.Replace("[tableName]", tableName)
+        Catch ex As Exception
 
-        If tableName.Trim.Contains("[") Or tableName.Trim.Contains("]") Then
-            tableName = tableName.Trim
-        Else
-            tableName = "[" + tableName.Trim + "]"
-        End If
-        sc.CommandText = sc.CommandText.Replace("serverName", b.ServerName)
-        sc.CommandText = sc.CommandText.Replace("dbName", b.DBname)
-        sc.CommandText = sc.CommandText.Replace("[tableName]", tableName)
+        End Try
+
 
 
         If where <> "" Then
@@ -563,6 +623,7 @@ Public Enum BrachesEnum
     Wardian = 501
     Manshya = 502
     Mergem = 202
+    Falaky = 504
 End Enum
 Public Class msgBox
     Public Shared Sub show(txt As String)

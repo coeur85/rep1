@@ -62,7 +62,7 @@
                 If br.ID <> BrachesEnum.Mergem Then
                     tnl.Add(g.getsys_item_prices(br))
                 End If
-                If br.ID = BrachesEnum.AboSloiman Or br.ID = BrachesEnum.Wardian Then
+                If br.ID = BrachesEnum.AboSloiman Or br.ID = BrachesEnum.Wardian Or BrachesEnum.Falaky Then
                     itemName = itemName + "_1"
                 ElseIf br.ID = BrachesEnum.Manshya Then
                     itemName = "ho_" + itemName
