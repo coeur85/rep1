@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  rep1:
+    image: rep1
+    build:
+      context: .\rep1
+      dockerfile: Dockerfile

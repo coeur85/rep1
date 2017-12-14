@@ -1,0 +1,85 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Main.master.vb" Inherits="rep1.Main"  %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Scripts/jquery.timeago.js"></script>
+    <link href="../_Desgin/Css/Site.css" rel="stylesheet" />
+
+</head>
+<body>
+    
+    
+
+
+    <form id="form1" runat="server" style="position:relative">
+<asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+
+                
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" >
+            </asp:ContentPlaceHolder>
+                </ContentTemplate>
+               
+            </asp:UpdatePanel> 
+            <asp:UpdateProgress runat="server" AssociatedUpdatePanelID="UpdatePanel1">
+                <ProgressTemplate>
+                    <center>
+                    <div id="container" >
+                    <asp:Image ImageUrl="~/_Desgin/Img/loading-gif.gif" runat="server" ID="img_loading" />
+                     
+                     </div>
+                    </center>
+  
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </div>
+    
+    <script type="text/javascript">
+
+
+
+     
+        var c = new Sys.UI.Control($get("UpdatePanel1"));
+
+        function beginRequestHandler(sender, args) {
+        
+            c.set_visible(false);
+        }
+
+        function endRequestHandler(sender, args) {
+            c.set_visible(true);
+            $("time.timeago").timeago();
+           
+          
+           
+        }
+        function pageLoad() {
+            Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(beginRequestHandler);
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
+        }
+
+
+
+        $(document).ready(function () {
+
+            $("time.timeago").timeago();
+            
+        })
+
+       
+    </script>
+
+   
+      
+
+</form>
+</body>
+</html>
