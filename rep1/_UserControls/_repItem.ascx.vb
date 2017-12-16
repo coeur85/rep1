@@ -23,16 +23,6 @@
             tb.Rows.Add("error connection to " + br.BranchName + " server")
             lbl_branchName.Text = br.BranchName
 
-            'cb_brName.Text = br.BranchName
-            'cb_brName.ToolTip = br.ID
-            'cb_rpItem.Text = itemName
-            'cb_rpItem.Checked = False
-            'cb_brName.Checked = False
-
-            'cb_rpItem.Enabled = False
-            'cb_brName.Enabled = False
-
-
             lbl_res.Text = "Connection error !"
             gv_item.DataSource = tb
             gv_item.DataBind()
@@ -62,7 +52,7 @@
                 If br.ID <> BrachesEnum.Mergem Then
                     tnl.Add(g.getsys_item_prices(br))
                 End If
-                If br.ID = BrachesEnum.AboSloiman Or br.ID = BrachesEnum.Wardian Or BrachesEnum.Falaky Then
+                If br.ID = BrachesEnum.AboSloiman Or br.ID = BrachesEnum.Wardian Or BrachesEnum.Falaky Or BrachesEnum.Fadaly Then
                     itemName = itemName + "_1"
                 ElseIf br.ID = BrachesEnum.Manshya Then
                     itemName = "ho_" + itemName
@@ -230,15 +220,7 @@
 
     End Sub
 
-    'Protected Sub cb_brName_CheckedChanged(sender As Object, e As EventArgs)
-    '    RaiseEvent cb_branchChanged(sender, e, cb_brName.Checked, cb_brName.ToolTip)
-    '    '  cb_brName.Focus()
-    'End Sub
 
-    'Protected Sub cb_rpItem_CheckedChanged(sender As Object, e As EventArgs)
-    '    RaiseEvent cb_repItemChanged(sender, e, cb_rpItem.Checked, cb_rpItem.Text)
-    '    '  cb_rpItem.Focus()
-    'End Sub
 End Class
 
 

@@ -128,6 +128,7 @@
             br.Add(int.Wardian)
             br.Add(int.Mergem)
             br.Add(int.Falaky)
+            br.Add(int.Fadaly)
             Return br
         End Get
     End Property
