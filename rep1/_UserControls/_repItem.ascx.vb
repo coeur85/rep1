@@ -10,7 +10,7 @@
 
 
 
-    Private Sub BindRepItem(b As BrachesEnum, itemName As String, isfromHQ As Boolean)
+    Private Sub BindRepItem(b As BranchEnum, itemName As String, isfromHQ As Boolean)
         Dim it As New GetClass.Init
 
         Dim hq = it.HQ
@@ -49,17 +49,17 @@
 
 
             ElseIf itemName = "sys_item_prices" Then
-                If br.ID <> BrachesEnum.Mergem Then
+                If br.ID <> BranchEnum.Mergem Then
                     tnl.Add(g.getsys_item_prices(br))
                 End If
-                If br.ID = BrachesEnum.AboSloiman Or br.ID = BrachesEnum.Wardian Or BrachesEnum.Falaky Or BrachesEnum.Fadaly Then
+                If br.ID = BranchEnum.AboSloiman Or br.ID = BranchEnum.Wardian Or br.ID = BranchEnum.Falaky Or br.ID = BranchEnum.Fadaly Then
                     itemName = itemName + "_1"
-                ElseIf br.ID = BrachesEnum.Manshya Then
+                ElseIf br.ID = BranchEnum.Manshya Then
                     itemName = "ho_" + itemName
                 End If
 
             Else
-                tnl = g.getTablesNames(BrachesEnum.HQ, itemName)
+                tnl = g.getTablesNames(BranchEnum.HQ, itemName)
 
             End If
         Else
@@ -125,32 +125,36 @@
 
 
 
-        Dim ti As DateTime
+        '  Dim ti As DateTime
+        Dim j As New ServerAgentJobs
         If isfromHQ Then
-            ti = g.getLastSyncDate(itemName, br, hq)
-            '  lbl_ls.Text = "Last Sync: " +
+            ' ti = g.getLastSyncDate(itemName, br, hq)
+            ' lbl_ls.Text = "Last Sync: " +
+            'j = ServerAgentJobs.List(hq).Where(Function(x) x.JobName = itemName And x.Server = br.ServerName).FirstOrDefault
+            j = ServerAgentJobs.Job(itemName, hq, br)
         Else
-            ti = g.getLastSyncDate(itemName, hq, br)
-            '    lbl_ls.Text = "Last Sync: " + 
-
+            'ti = g.getLastSyncDate(itemName, hq, br)
+            'lbl_ls.Text = "Last Sync: " +
+            j = ServerAgentJobs.Job(itemName, br, hq)
         End If
         '<globalization  culture="en-NZ"  uiCulture="en-NZ"/>
-        lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(ti))
-        lbl_timeStamp.Attributes.Add("title", FormatDateTime(ti))
-        lbl_timeStamp.InnerText = "Last Sync: " + ti.ToString
+        lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
+        lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
+        lbl_timeStamp.InnerText = "Last Sync: " + j.LastRun.ToString
+
+        lbl_jobStatus.Text = "the replicqtions is:" + j.JobStatues
+        If j.NextRun IsNot Nothing Then
+            lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
+            lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
+            lbl_next.InnerText = "Last Sync: " + j.NextRun.ToString
+        End If
 
 
-        'cb_brName.Text = br.BranchName
-        'cb_brName.ToolTip = br.ID
-        'cb_rpItem.Text = itemName
-        'cb_rpItem.Checked = True
-        'cb_brName.Checked = True
-        'cb_rpItem.Enabled = True
 
-        'cb_brName.Enabled = True
+
         gv_item.DataSource = tb
         gv_item.DataBind()
-        '  gv_item.Columns(2).HeaderText = br.BranchName
+
 
 
 

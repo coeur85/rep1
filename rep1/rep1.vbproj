@@ -102,6 +102,7 @@
     <Content Include="Scripts\jquery.timeago.js" />
     <Content Include="WebForm1.aspx" />
     <Content Include="_Desgin\Img\loading-gif.gif" />
+    <Content Include="_UserControls\serverJobs.txt" />
     <Content Include="_UserControls\_repItem.ascx" />
     <Content Include="_UserControls\_repItemRepter.ascx" />
     <None Include="Dockerfile" />

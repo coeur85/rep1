@@ -1,8 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Public Class GetClass
-    Function getRepItem(value As BrachesEnum) As List(Of ItemName)
+    Function getRepItem(value As BranchEnum) As List(Of ItemName)
         getRepItem = New List(Of ItemName)
-        If value = BrachesEnum.HQ Then
+        If value = BranchEnum.HQ Then
             getRepItem.Add(New ItemName("PO"))
             getRepItem.Add(New ItemName("HO_Acc_Balance"))
             getRepItem.Add(New ItemName("HO_Acc_basics"))
@@ -22,7 +22,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("sys_item_prices"))
             'getRepItem.Add(New ItemName("HO_Acc_Ledger"))
 
-        ElseIf value = BrachesEnum.AboSloiman Then
+        ElseIf value = BranchEnum.AboSloiman Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("branch_inventory"))
             getRepItem.Add(New ItemName("branch_order"))
@@ -31,7 +31,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_pur_request_items"))
             getRepItem.Add(New ItemName("branch_sales"))
             getRepItem.Add(New ItemName("branch_stock_balance"))
-        ElseIf value = BrachesEnum.Wardian Then
+        ElseIf value = BranchEnum.Wardian Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("barnch_stk_order"))
             getRepItem.Add(New ItemName("branch_stk_order_items"))
@@ -42,7 +42,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_sales_trans"))
 
 
-        ElseIf value = BrachesEnum.Manshya Then
+        ElseIf value = BranchEnum.Manshya Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("branch_order"))
             getRepItem.Add(New ItemName("branch_order_items"))
@@ -52,7 +52,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_stock_balance"))
             getRepItem.Add(New ItemName("branch_sales"))
 
-        ElseIf value = BrachesEnum.Mergem Then
+        ElseIf value = BranchEnum.Mergem Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("branch_inventory"))
             getRepItem.Add(New ItemName("branch_order"))
@@ -60,7 +60,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_sales"))
             getRepItem.Add(New ItemName("branch_stock_balance"))
 
-        ElseIf value = BrachesEnum.Falaky Then
+        ElseIf value = BranchEnum.Falaky Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("branch_order"))
             getRepItem.Add(New ItemName("branch_order_items"))
@@ -70,7 +70,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_balance"))
             getRepItem.Add(New ItemName("branch_sales"))
 
-        ElseIf value = BrachesEnum.Fadaly Then
+        ElseIf value = BranchEnum.Fadaly Then
             getRepItem.Add(New ItemName("branch_account"))
             getRepItem.Add(New ItemName("branch_order"))
             getRepItem.Add(New ItemName("branch_order_items"))
@@ -83,10 +83,10 @@ Public Class GetClass
         End If
 
     End Function
-    Function getTablesNames(br As BrachesEnum, repName As String) As List(Of TablesNames)
+    Function getTablesNames(br As BranchEnum, repName As String) As List(Of TablesNames)
         getTablesNames = New List(Of TablesNames)
         ' getTablesNames.Add(New TablesNames("", ""))
-        If br = BrachesEnum.HQ Then
+        If br = BranchEnum.HQ Then
             Select Case repName
                 Case "HO_Acc_Balance"
                     getTablesNames.Add(New TablesNames("[acc_balance]", ""))
@@ -177,7 +177,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("pur_request_items", ""))
 
             End Select
-        ElseIf br = BrachesEnum.AboSloiman Then
+        ElseIf br = BranchEnum.AboSloiman Then
             Select Case repName
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 503 "))
@@ -205,7 +205,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("stk_mtod", "WHERE branch = 503 and  doctype =0  and transyear >= 2017"))
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 503 and  doctype =2913 "))
             End Select
-        ElseIf br = BrachesEnum.Manshya Then
+        ElseIf br = BranchEnum.Manshya Then
             Select Case repName
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 502"))
@@ -234,7 +234,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 502 and  doctype =2913 "))
             End Select
 
-        ElseIf br = BrachesEnum.Wardian Then
+        ElseIf br = BranchEnum.Wardian Then
             Select Case repName
                 Case "barnch_stk_order"
                     getTablesNames.Add(New TablesNames("stk_order", "WHERE [branch] = 501  and posting = 1"))
@@ -262,7 +262,7 @@ Public Class GetClass
                 Case "pur_request_items"
                     getTablesNames.Add(New TablesNames("pur_request_items", "WHERE branch =501 and doctype = 1060"))
             End Select
-        ElseIf br = BrachesEnum.Mergem Then
+        ElseIf br = BranchEnum.Mergem Then
             Select Case repName
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 202 "))
@@ -283,12 +283,12 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location = 202 and  doctype = 2913"))
                 Case "branch_sales"
                     getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 202  "))
-                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 202 and posting = 1  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 202   "))
                     getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 202 "))
             End Select
 
 
-        ElseIf br = BrachesEnum.Falaky Then
+        ElseIf br = BranchEnum.Falaky Then
             Select Case repName
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 504"))
@@ -317,7 +317,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 504 and  doctype =2913 "))
             End Select
 
-        ElseIf br = BrachesEnum.Fadaly Then
+        ElseIf br = BranchEnum.Fadaly Then
             Select Case repName
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 505"))
@@ -671,7 +671,7 @@ Public Class BranchsClass
     End Property
 
 End Class
-Public Enum BrachesEnum
+Public Enum BranchEnum
     HQ = 0
     AboSloiman = 503
     Wardian = 501
@@ -687,3 +687,177 @@ Public Class msgBox
 
     End Sub
 End Class
+Public Class ServerAgentJobs
+
+    Private _saver As String
+    Public Property Server() As String
+        Get
+            Return _saver
+        End Get
+        Set(ByVal value As String)
+            Dim ar As String() = value.Split("-")
+
+            _saver = ar(4) + "-" + ar(5)
+        End Set
+
+    End Property
+    Private _jobEnabled As Boolean
+    Public Property JobEnabled() As Boolean
+        Get
+            Return _jobEnabled
+        End Get
+        Set(ByVal value As Boolean)
+            _jobEnabled = value
+        End Set
+    End Property
+    Private _jobStatues As String
+    Public Property JobStatues() As String
+        Get
+            Return _jobStatues
+        End Get
+        Set(ByVal value As String)
+            _jobStatues = value
+        End Set
+    End Property
+
+    Private _nextrun As Nullable(Of Date)
+    Public Property NextRun() As Nullable(Of Date)
+        Get
+            Return _nextrun
+        End Get
+        Set(ByVal value As Nullable(Of Date))
+            _nextrun = value
+        End Set
+    End Property
+
+    Private _lastrun As Date
+    Public Property LastRun() As Date
+        Get
+            Return _lastrun
+        End Get
+        Set(ByVal value As Date)
+            _lastrun = value
+        End Set
+    End Property
+
+    Private _jobName As String
+    Public Property JobName() As String
+        Get
+            Return _jobName
+        End Get
+        Set(ByVal value As String)
+            Dim ar As String() = value.Split("-")
+
+
+            _jobName = ar(3)
+        End Set
+    End Property
+
+    Public Shared ReadOnly Property Job(itemName As String, Distriputer As BranchsClass, SubScriper As BranchsClass) As ServerAgentJobs
+        Get
+
+            'If HttpContext.Current.Session("serverJob") IsNot Nothing Then
+            '    List = New List(Of ServerAgentJobs)
+            '    List = HttpContext.Current.Session("serverJob")
+            'Else
+            ' List = New List(Of ServerAgentJobs)
+            Try
+
+
+                Dim intC As New GetClass.Init
+
+                Dim sc As New SqlCommand
+                sc.Connection = Distriputer.Connection
+                sc.CommandType = CommandType.Text
+                sc.CommandText = readFile()
+
+                If itemName.Length > 21 Then
+                    itemName = itemName.Remove(20)
+                End If
+
+
+                sc.CommandText = sc.CommandText.Replace("#itemname#", itemName)
+                sc.CommandText = sc.CommandText.Replace("#servername#", SubScriper.ServerName)
+                If sc.Connection.State <> ConnectionState.Open Then
+                    sc.Connection.Open()
+                End If
+                Dim da As New SqlDataAdapter(sc)
+                Dim t As New DataTable
+                da.Fill(t)
+                Dim j As New ServerAgentJobs
+
+                Dim index = 0
+                'For index = 0 To t.Rows.Count - 1
+                '    j = New ServerAgentJobs
+                j.Server = t.Rows(index).Item(0).ToString()
+                j.JobName = t.Rows(index).Item(0).ToString()
+                j.JobEnabled = CBool(t.Rows(index).Item(2).ToString())
+                j.JobStatues = t.Rows(index).Item(3).ToString()
+                Dim n As Integer = t.Rows(index).Item(6).ToString()
+                Dim yr As Integer = n \ 10000
+                Dim mon As Integer = (n - 10000 * yr) \ 100
+                Dim d As Integer = n Mod 100
+                Dim ti As Integer = t.Rows(index).Item(7).ToString()
+                Dim h As Integer = ti / 10000
+                If h < 0 Then
+                    h = h * -1
+                End If
+                Dim m As Integer = ((h * 10000) - ti) / 100
+                If m < 0 Then
+                    m = m * -1
+                End If
+                j.LastRun = New DateTime(yr, mon, d, h, m, 0)
+
+                If CInt(t.Rows(index).Item(4).ToString()) > 0 Then
+                    n = t.Rows(index).Item(4).ToString()
+                    yr = n \ 10000
+                    mon = (n - 10000 * yr) \ 100
+                    d = n Mod 100
+                    ti = t.Rows(index).Item(5).ToString()
+                    h = ti / 10000
+                    m = ((h * 10000) - ti) / 100
+                    If h < 0 Then
+                        h = h * -1
+                    End If
+                    If m < 0 Then
+                        m = m * -1
+                    End If
+                    j.NextRun = New DateTime(yr, mon, d, h, m, 0)
+
+                End If
+                '    List.Add(j)
+                'Next
+
+                '  End If
+                ' HttpContext.Current.Session("serverJob") = List
+
+                Return j
+            Catch ex As Exception
+                'msgBox.show(ex.Message)
+                HttpContext.Current.Response.Write(ex.Message)
+                Return Nothing
+            End Try
+        End Get
+        'Set(value As List(Of ServerAgentJobs))
+        '    HttpContext.Current.Session("serverJob") = value
+        'End Set
+    End Property
+
+
+    Private Shared Function readFile() As String
+        readFile = ""
+        Dim fso = HttpContext.Current.Server.CreateObject("Scripting.FileSystemObject")
+        Dim fs = fso.OpenTextFile(HttpContext.Current.Server.MapPath("_UserControls\serverJobs.txt"), 1, True)
+        Do Until fs.AtEndOfStream
+            readFile += fs.ReadLine
+            readFile += vbCrLf
+        Loop
+
+        fs.close : fs = Nothing
+        Return readFile
+    End Function
+End Class
+
+
+
+

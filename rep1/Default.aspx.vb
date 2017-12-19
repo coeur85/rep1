@@ -26,7 +26,7 @@
 
             Case 201
 
-                cbl_repItems.DataSource = g.getRepItem(BrachesEnum.HQ)
+                cbl_repItems.DataSource = g.getRepItem(BranchEnum.HQ)
                 cbl_repItems.DataTextField = "RepName"
                 cbl_repItems.Visible = True
                 cbl_repItems.DataBind()

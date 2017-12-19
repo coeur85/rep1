@@ -66,4 +66,22 @@ Partial Public Class _repItem
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lbl_timeStamp As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''lbl_jobStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lbl_jobStatus As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lbl_next control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lbl_next As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class

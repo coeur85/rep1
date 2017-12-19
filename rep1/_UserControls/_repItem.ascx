@@ -47,7 +47,10 @@
                 <time class="timeago" id="lbl_timeStamp" runat="server"></time>
 
             </td>
-            <td></td>
+            <td>
+                <asp:Label ID="lbl_jobStatus" runat="server" />
+                 <time class="timeago" id="lbl_next" runat="server"></time>
+            </td>
         </tr>
     </tbody>
 </table>

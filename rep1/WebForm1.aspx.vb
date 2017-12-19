@@ -6,7 +6,7 @@
         If IsPostBack Then Exit Sub
 
         Dim g As New GetClass
-        cb_1.DataSource = g.getRepItem(BrachesEnum.HQ)
+        cb_1.DataSource = g.getRepItem(BranchEnum.HQ)
         cb_1.DataTextField = "RepName"
         cb_1.DataValueField = ""
         cb_1.DataBind()
@@ -19,7 +19,7 @@
 
         Next
 
-        cb_2.DataSource = g.getRepItem(BrachesEnum.HQ)
+        cb_2.DataSource = g.getRepItem(BranchEnum.HQ)
         cb_2.DataTextField = "RepName"
         cb_2.DataValueField = ""
         cb_2.DataBind()
