@@ -267,7 +267,7 @@ Public Class GetClass
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 202 "))
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det_local", "WHERE branch = 202 "))
-                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 202 "))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 202 and [rev_flag] = 1"))
                     getTablesNames.Add(New TablesNames("acc_trn_det", "WHERE location = 202  and journal_type in (2,4,8) and doctype not in (2010,2050)"))
                     getTablesNames.Add(New TablesNames("acc_trn_hed", "WHERE location = 202  and journal_type in (2,4,8) and doctype not in (2010,2050)  and [review_flag] = 1"))
                 Case "branch_inventory"
