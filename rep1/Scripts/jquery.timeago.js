@@ -42,13 +42,13 @@
     settings: {
       refreshMillis: 60000,
       allowPast: true,
-      allowFuture: false,
+      allowFuture: true,
       localeTitle: false,
       cutoff: 0,
       autoDispose: true,
       strings: {
         prefixAgo: 'Last Sync: ',
-        prefixFromNow: null,
+        prefixFromNow: 'Next Sync',
         suffixAgo: "ago",
         suffixFromNow: "from now",
         inPast: 'any moment now',

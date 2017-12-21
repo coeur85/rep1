@@ -31,7 +31,12 @@ create TABLE #xp_results
 insert into #xp_results 
 exec master.dbo.xp_sqlagent_enum_jobs 1, ''
 
-select j.name,j.categoryname,j.enabled, AgentStatus = CASE WHEN r.running =1 THEN 'Running' else 'Stopped'   end ,
+select j.name,j.categoryname,j.enabled, AgentStatus = 
+CASE WHEN r.running =1 THEN 'Running'
+ WHEN r.running =4 THEN 'Idle'
+ WHEN r.running =3 THEN 'Between retries'
+  WHEN r.running =5 THEN 'Suspended'
+ else 'Stopped'   end ,
  r.next_run_date , r.next_run_time , r.last_run_date,r.last_run_time
 from #JobList j inner join #xp_results r on j.job_id=r.job_id
 where j.categoryname = 'REPL-Distribution' and ([name] like N'%#itemname#%' and [name] like N'%#servername#%')

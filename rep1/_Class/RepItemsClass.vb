@@ -37,7 +37,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_stk_order_items"))
             getRepItem.Add(New ItemName("branch_inventory"))
             getRepItem.Add(New ItemName("branch_pur_request"))
-            getRepItem.Add(New ItemName("pur_request_items"))
+            getRepItem.Add(New ItemName("branch_pur_request_items"))
             getRepItem.Add(New ItemName("branch_stk_balance"))
             getRepItem.Add(New ItemName("branch_sales_trans"))
 
@@ -48,7 +48,7 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_order_items"))
             getRepItem.Add(New ItemName("branch_inventory"))
             getRepItem.Add(New ItemName("branch_pur_request"))
-            getRepItem.Add(New ItemName("pur_request_items"))
+            getRepItem.Add(New ItemName("branch_pur_request_items"))
             getRepItem.Add(New ItemName("branch_stock_balance"))
             getRepItem.Add(New ItemName("branch_sales"))
 
@@ -223,7 +223,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("stk_order_items", "WHERE branch = 502 "))
                 Case "branch_pur_request"
                     getTablesNames.Add(New TablesNames("pur_request", "WHERE branch =502 and doctype = 1060 and [review] = 1 "))
-                Case "pur_request_items"
+                Case "branch_pur_request_items"
                     getTablesNames.Add(New TablesNames("pur_request_items", "WHERE branch =502 and doctype = 1060"))
                 Case "branch_sales"
                     getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 502  "))
@@ -259,7 +259,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE [location] =501 and [doctype] =2913 "))
                 Case "branch_stk_order_items"
                     getTablesNames.Add(New TablesNames("stk_order_items", "WHERE [branch] = 501 "))
-                Case "pur_request_items"
+                Case "branch_pur_request_items"
                     getTablesNames.Add(New TablesNames("pur_request_items", "WHERE branch =501 and doctype = 1060"))
             End Select
         ElseIf br = BranchEnum.Mergem Then
@@ -789,42 +789,48 @@ Public Class ServerAgentJobs
                 Dim index = 0
                 'For index = 0 To t.Rows.Count - 1
                 '    j = New ServerAgentJobs
-                j.Server = t.Rows(index).Item(0).ToString()
-                j.JobName = t.Rows(index).Item(0).ToString()
-                j.JobEnabled = CBool(t.Rows(index).Item(2).ToString())
-                j.JobStatues = t.Rows(index).Item(3).ToString()
-                Dim n As Integer = t.Rows(index).Item(6).ToString()
-                Dim yr As Integer = n \ 10000
-                Dim mon As Integer = (n - 10000 * yr) \ 100
-                Dim d As Integer = n Mod 100
-                Dim ti As Integer = t.Rows(index).Item(7).ToString()
-                Dim h As Integer = ti / 10000
-                If h < 0 Then
-                    h = h * -1
-                End If
-                Dim m As Integer = ((h * 10000) - ti) / 100
-                If m < 0 Then
-                    m = m * -1
-                End If
-                j.LastRun = New DateTime(yr, mon, d, h, m, 0)
-
-                If CInt(t.Rows(index).Item(4).ToString()) > 0 Then
-                    n = t.Rows(index).Item(4).ToString()
-                    yr = n \ 10000
-                    mon = (n - 10000 * yr) \ 100
-                    d = n Mod 100
-                    ti = t.Rows(index).Item(5).ToString()
-                    h = ti / 10000
-                    m = ((h * 10000) - ti) / 100
+                If t.Rows.Count > 0 Then
+                    j.Server = t.Rows(index).Item(0).ToString()
+                    j.JobName = t.Rows(index).Item(0).ToString()
+                    j.JobEnabled = CBool(t.Rows(index).Item(2).ToString())
+                    j.JobStatues = t.Rows(index).Item(3).ToString()
+                    Dim n As Integer = t.Rows(index).Item(6).ToString()
+                    Dim yr As Integer = n \ 10000
+                    Dim mon As Integer = (n - 10000 * yr) \ 100
+                    Dim d As Integer = n Mod 100
+                    Dim ti As Integer = t.Rows(index).Item(7).ToString()
+                    Dim h As Integer = ti / 10000
                     If h < 0 Then
                         h = h * -1
                     End If
+                    Dim m As Integer = ((h * 10000) - ti) / 100
                     If m < 0 Then
                         m = m * -1
                     End If
-                    j.NextRun = New DateTime(yr, mon, d, h, m, 0)
+                    j.LastRun = New DateTime(yr, mon, d, h, m, 0)
+
+                    If CInt(t.Rows(index).Item(4).ToString()) > 0 Then
+                        n = t.Rows(index).Item(4).ToString()
+                        yr = n \ 10000
+                        mon = (n - 10000 * yr) \ 100
+                        d = n Mod 100
+                        ti = t.Rows(index).Item(5).ToString()
+                        h = ti / 10000
+                        m = ((h * 10000) - ti) / 100
+                        If h < 0 Then
+                            h = h * -1
+                        End If
+                        If m < 0 Then
+                            m = m * -1
+                        End If
+                        j.NextRun = New DateTime(yr, mon, d, h, m, 0)
+
+                    End If
+                Else
+                    j = Nothing
 
                 End If
+
                 '    List.Add(j)
                 'Next
 

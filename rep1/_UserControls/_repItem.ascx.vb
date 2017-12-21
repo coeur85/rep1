@@ -138,16 +138,31 @@
             j = ServerAgentJobs.Job(itemName, br, hq)
         End If
         '<globalization  culture="en-NZ"  uiCulture="en-NZ"/>
-        lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
-        lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
-        lbl_timeStamp.InnerText = "Last Sync: " + j.LastRun.ToString
+        If j IsNot Nothing Then
+            lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
+            lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
+            lbl_timeStamp.InnerText = "Last Sync: " + j.LastRun.ToString
 
-        lbl_jobStatus.Text = "the replicqtions is:" + j.JobStatues
-        If j.NextRun IsNot Nothing Then
-            lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
-            lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
-            lbl_next.InnerText = "Last Sync: " + j.NextRun.ToString
+            lbl_jobStatus.Text = "Job is:" + j.JobStatues
+            If j.JobStatues <> "Running" Then
+                If j.NextRun IsNot Nothing Then
+                    lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
+                    lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
+                    lbl_next.InnerText = "Next Sync: " + j.NextRun.ToString
+                Else
+                    lbl_next.Visible = False
+                End If
+            Else
+
+                lbl_next.Visible = False
+            End If
+        Else
+
+            lbl_jobStatus.Text = "job information not found!"
         End If
+
+
+
 
 
 
