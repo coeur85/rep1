@@ -139,16 +139,21 @@
         End If
         '<globalization  culture="en-NZ"  uiCulture="en-NZ"/>
         If j IsNot Nothing Then
-            lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
-            lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
-            lbl_timeStamp.InnerText = "Last Sync: " + j.LastRun.ToString
+            If j.LastRun IsNot Nothing Then
+                lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
+                lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
+                lbl_timeStamp.InnerText = "Last Sync: " + FormatDateTime(j.LastRun.ToString)
+            Else
+                lbl_timeStamp.InnerText = "Never stopped"
+            End If
+
 
             lbl_jobStatus.Text = "Job is:" + j.JobStatues
             If j.JobStatues <> "Running" Then
                 If j.NextRun IsNot Nothing Then
                     lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
                     lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
-                    lbl_next.InnerText = "Next Sync: " + j.NextRun.ToString
+                    lbl_next.InnerText = "Next Sync: " + FormatDateTime(j.NextRun.ToString)
                 Else
                     lbl_next.Visible = False
                 End If

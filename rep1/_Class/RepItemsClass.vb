@@ -730,12 +730,12 @@ Public Class ServerAgentJobs
         End Set
     End Property
 
-    Private _lastrun As Date
-    Public Property LastRun() As Date
+    Private _lastrun As Nullable(Of Date)
+    Public Property LastRun() As Nullable(Of Date)
         Get
             Return _lastrun
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As Nullable(Of Date))
             _lastrun = value
         End Set
     End Property
@@ -794,29 +794,35 @@ Public Class ServerAgentJobs
                     j.JobName = t.Rows(index).Item(0).ToString()
                     j.JobEnabled = CBool(t.Rows(index).Item(2).ToString())
                     j.JobStatues = t.Rows(index).Item(3).ToString()
-                    Dim n As Integer = t.Rows(index).Item(6).ToString()
-                    Dim yr As Integer = n \ 10000
-                    Dim mon As Integer = (n - 10000 * yr) \ 100
-                    Dim d As Integer = n Mod 100
-                    Dim ti As Integer = t.Rows(index).Item(7).ToString()
-                    Dim h As Integer = ti / 10000
-                    If h < 0 Then
-                        h = h * -1
+                    If CInt(t.Rows(index).Item(6).ToString()) > 0 Then
+                        Dim n As Integer = t.Rows(index).Item(6).ToString()
+                        Dim yr As Integer = n \ 10000
+                        Dim mon As Integer = (n - 10000 * yr) \ 100
+                        Dim d As Integer = n Mod 100
+                        Dim ti As Integer = t.Rows(index).Item(7).ToString()
+                        Dim h As Integer = ti / 10000
+                        If h < 0 Then
+                            h = h * -1
+                        End If
+                        Dim m As Integer = ((h * 10000) - ti) / 100
+                        If m < 0 Then
+                            m = m * -1
+                        End If
+
+                        j.LastRun = New DateTime(yr, mon, d, h, m, 0)
                     End If
-                    Dim m As Integer = ((h * 10000) - ti) / 100
-                    If m < 0 Then
-                        m = m * -1
-                    End If
-                    j.LastRun = New DateTime(yr, mon, d, h, m, 0)
+
+
+
 
                     If CInt(t.Rows(index).Item(4).ToString()) > 0 Then
-                        n = t.Rows(index).Item(4).ToString()
-                        yr = n \ 10000
-                        mon = (n - 10000 * yr) \ 100
-                        d = n Mod 100
-                        ti = t.Rows(index).Item(5).ToString()
-                        h = ti / 10000
-                        m = ((h * 10000) - ti) / 100
+                        Dim n = t.Rows(index).Item(4).ToString()
+                        Dim yr = n \ 10000
+                        Dim mon = (n - 10000 * yr) \ 100
+                        Dim d = n Mod 100
+                        Dim ti = t.Rows(index).Item(5).ToString()
+                        Dim h = ti / 10000
+                        Dim m = ((h * 10000) - ti) / 100
                         If h < 0 Then
                             h = h * -1
                         End If
