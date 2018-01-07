@@ -173,6 +173,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_login", ""))
                     getTablesNames.Add(New TablesNames("sys_login_roles", ""))
                     getTablesNames.Add(New TablesNames("sys_permission", ""))
+                    getTablesNames.Add(New TablesNames("sys_userprofile", ""))
                 Case "pur_request_items"
                     getTablesNames.Add(New TablesNames("pur_request_items", ""))
 
@@ -283,7 +284,7 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location = 202 and  doctype = 2913"))
                 Case "branch_sales"
                     getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 202  "))
-                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 202   "))
+                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 202  and [posting] = 1 "))
                     getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 202 "))
             End Select
 
