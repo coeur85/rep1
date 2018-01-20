@@ -129,6 +129,7 @@
             br.Add(int.Mergem)
             br.Add(int.Falaky)
             br.Add(int.Fadaly)
+            br.Add(int.Abes)
             Return br
         End Get
     End Property

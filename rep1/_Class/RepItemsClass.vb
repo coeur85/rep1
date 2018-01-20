@@ -80,6 +80,14 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_stock_balance"))
             getRepItem.Add(New ItemName("branch_sales"))
 
+        ElseIf value = BranchEnum.Abes Then
+            getRepItem.Add(New ItemName("branch_account"))
+            getRepItem.Add(New ItemName("branch_inventory"))
+            getRepItem.Add(New ItemName("branch_order"))
+            getRepItem.Add(New ItemName("branch_order_items"))
+            getRepItem.Add(New ItemName("branch_sales"))
+            getRepItem.Add(New ItemName("branch_stock_balance"))
+
         End If
 
     End Function
@@ -242,7 +250,7 @@ Public Class GetClass
                 Case "branch_account"
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 501 "))
                     getTablesNames.Add(New TablesNames("acc_cash_in_out_det_local", "WHERE branch = 501 "))
-                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 501 "))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 501 and  [rev_flag] = 1"))
                     getTablesNames.Add(New TablesNames("acc_trn_det", "WHERE location = 501   and journal_type in (2,8,4) and doctype not in (2010,2050)"))
                     getTablesNames.Add(New TablesNames("acc_trn_hed", "WHERE location = 501   and journal_type in (2,8,4) and doctype not in (2010,2050)"))
                 Case "branch_inventory"
@@ -345,6 +353,32 @@ Public Class GetClass
                 Case "branch_stock_balance"
                     getTablesNames.Add(New TablesNames("stk_mtod", "WHERE branch = 505 and  doctype =0  and transyear >= 2017"))
                     getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 505 and  doctype =2913 "))
+            End Select
+
+
+        ElseIf br = BranchEnum.Abes Then
+            Select Case repName
+                Case "branch_account"
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 205 "))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det_local", "WHERE branch = 205 "))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 205 and [rev_flag] = 1"))
+                    getTablesNames.Add(New TablesNames("acc_trn_det", "WHERE location = 205  and journal_type in (2,4,8) and doctype not in (2010,2050)"))
+                    getTablesNames.Add(New TablesNames("acc_trn_hed", "WHERE location = 205  and journal_type in (2,4,8) and doctype not in (2010,2050)  and [review_flag] = 1"))
+                Case "branch_inventory"
+                    getTablesNames.Add(New TablesNames("stk_inventory", " WHERE branch = 205  "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_items", "WHERE branch = 205  "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_prepare", "WHERE branch = 205   "))
+                Case "branch_order"
+                    getTablesNames.Add(New TablesNames("stk_order", "WHERE branch = 205  and posting = 1"))
+                Case "branch_order_items"
+                    getTablesNames.Add(New TablesNames("stk_order_items", "WHERE branch = 205 "))
+                Case "branch_stock_balance"
+                    getTablesNames.Add(New TablesNames("stk_mtod", "WHERE branch = 205 and  doctype =0  and transyear >= 2017"))
+                    getTablesNames.Add(New TablesNames("sys_closing", "WHERE location = 205 and  doctype = 2913"))
+                Case "branch_sales"
+                    getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 205  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 205  and [posting] = 1 "))
+                    getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 205 "))
             End Select
 
         End If
@@ -451,7 +485,7 @@ Public Class GetClass
                 .DBname = "Retail",
                 .ServerName = "falak-db01",
              .ID = 504,
-             .CodeName = "falak"}
+             .CodeName = "falaky"}
 
 
 
@@ -468,7 +502,18 @@ Public Class GetClass
 
 
         End Function
+        Public Overloads Function Abes() As BranchsClass
 
+            Abes = New BranchsClass With {
+              .BranchName = "Abes",
+              .Connection = New SqlConnection("Data Source=Abes-DB01;Initial Catalog=Retail;Persist Security Info=True;User ID=sa;Password=retipr"),
+              .DBname = "Retail",
+              .ServerName = "Abes-DB01",
+           .ID = 205,
+           .CodeName = "Abes"}
+
+
+        End Function
         Public Function withID(id As Int16) As BranchsClass
             Select Case id
                 Case 502
@@ -479,6 +524,8 @@ Public Class GetClass
                     Return AboSliman()
                 Case 202
                     Return Mergem()
+                Case 205
+                    Return Abes()
                 Case 504
                     Return Falaky()
                 Case 505
@@ -680,6 +727,7 @@ Public Enum BranchEnum
     Mergem = 202
     Falaky = 504
     Fadaly = 505
+    Abes = 205
 End Enum
 Public Class msgBox
     Public Shared Sub show(txt As String)

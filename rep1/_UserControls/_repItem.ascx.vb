@@ -73,23 +73,88 @@
 
 
 
-        Dim s As String
-        For Each l In tnl
 
-            n1 = g.GetRowCount(hq, l.TableName, l.WhereCondtion)
-            n2 = g.GetRowCount(br, l.TableName, l.WhereCondtion)
-            n3 = n1 - n2
-            If n3 = 0 Then
-                s = "Ok"
+
+
+
+        Dim j As New ServerAgentJobs
+        If isfromHQ Then
+
+            j = ServerAgentJobs.Job(itemName, hq, br)
+        Else
+
+            j = ServerAgentJobs.Job(itemName, br, hq)
+        End If
+
+        If j IsNot Nothing Then
+            If j.LastRun IsNot Nothing Then
+                lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
+                lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
+                lbl_timeStamp.InnerText = "Last Sync: " + FormatDateTime(j.LastRun.ToString)
             Else
-                s = "Error"
-                miss += n3
-                t += 1
+                lbl_timeStamp.InnerText = "Never stopped"
             End If
-            tb.Rows.Add(l.TableName, n1, n2, s, n3)
 
-        Next
-        ' gv_item.Columns.Clear()
+
+            lbl_jobStatus.Text = "Job is:" + j.JobStatues
+            If j.JobStatues <> "Running" Then
+                If j.NextRun IsNot Nothing Then
+                    lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
+                    lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
+                    lbl_next.InnerText = "Next Sync: " + FormatDateTime(j.NextRun.ToString)
+                Else
+                    lbl_next.Visible = False
+                End If
+            Else
+
+                lbl_next.Visible = False
+            End If
+
+
+
+            Dim s As String
+            For Each l In tnl
+
+                n1 = g.GetRowCount(hq, l.TableName, l.WhereCondtion)
+                n2 = g.GetRowCount(br, l.TableName, l.WhereCondtion)
+                n3 = n1 - n2
+                If n3 = 0 Then
+                    s = "Ok"
+                Else
+                    s = "Error"
+                    miss += n3
+                    t += 1
+                End If
+                tb.Rows.Add(l.TableName, n1, n2, s, n3)
+
+            Next
+
+
+        Else
+
+            lbl_jobStatus.Text = "job information not found!"
+        End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         If tb.Rows.Count = 0 Then
             tb.Columns.Clear()
@@ -125,46 +190,7 @@
 
 
 
-        '  Dim ti As DateTime
-        Dim j As New ServerAgentJobs
-        If isfromHQ Then
-            ' ti = g.getLastSyncDate(itemName, br, hq)
-            ' lbl_ls.Text = "Last Sync: " +
-            'j = ServerAgentJobs.List(hq).Where(Function(x) x.JobName = itemName And x.Server = br.ServerName).FirstOrDefault
-            j = ServerAgentJobs.Job(itemName, hq, br)
-        Else
-            'ti = g.getLastSyncDate(itemName, hq, br)
-            'lbl_ls.Text = "Last Sync: " +
-            j = ServerAgentJobs.Job(itemName, br, hq)
-        End If
-        '<globalization  culture="en-NZ"  uiCulture="en-NZ"/>
-        If j IsNot Nothing Then
-            If j.LastRun IsNot Nothing Then
-                lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
-                lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
-                lbl_timeStamp.InnerText = "Last Sync: " + FormatDateTime(j.LastRun.ToString)
-            Else
-                lbl_timeStamp.InnerText = "Never stopped"
-            End If
 
-
-            lbl_jobStatus.Text = "Job is:" + j.JobStatues
-            If j.JobStatues <> "Running" Then
-                If j.NextRun IsNot Nothing Then
-                    lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
-                    lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
-                    lbl_next.InnerText = "Next Sync: " + FormatDateTime(j.NextRun.ToString)
-                Else
-                    lbl_next.Visible = False
-                End If
-            Else
-
-                lbl_next.Visible = False
-            End If
-        Else
-
-            lbl_jobStatus.Text = "job information not found!"
-        End If
 
 
 
