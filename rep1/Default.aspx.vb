@@ -130,6 +130,7 @@
             br.Add(int.Falaky)
             br.Add(int.Fadaly)
             br.Add(int.Abes)
+            br.Add(int.BMasoud)
             Return br
         End Get
     End Property

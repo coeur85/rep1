@@ -77,42 +77,42 @@
 
 
 
-        Dim j As New ServerAgentJobs
-        If isfromHQ Then
+        'Dim j As New ServerAgentJobs
+        'If isfromHQ Then
 
-            j = ServerAgentJobs.Job(itemName, hq, br)
-        Else
+        '    j = ServerAgentJobs.Job(itemName, hq, br)
+        'Else
 
-            j = ServerAgentJobs.Job(itemName, br, hq)
-        End If
+        '    j = ServerAgentJobs.Job(itemName, br, hq)
+        'End If
 
-        If j IsNot Nothing Then
-            If j.LastRun IsNot Nothing Then
-                lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
-                lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
-                lbl_timeStamp.InnerText = "Last Sync: " + FormatDateTime(j.LastRun.ToString)
-            Else
-                lbl_timeStamp.InnerText = "Never stopped"
-            End If
-
-
-            lbl_jobStatus.Text = "Job is:" + j.JobStatues
-            If j.JobStatues <> "Running" Then
-                If j.NextRun IsNot Nothing Then
-                    lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
-                    lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
-                    lbl_next.InnerText = "Next Sync: " + FormatDateTime(j.NextRun.ToString)
-                Else
-                    lbl_next.Visible = False
-                End If
-            Else
-
-                lbl_next.Visible = False
-            End If
+        'If j IsNot Nothing Then
+        '    If j.LastRun IsNot Nothing Then
+        '        lbl_timeStamp.Attributes.Add("datetime", FormatDateTime(j.LastRun))
+        '        lbl_timeStamp.Attributes.Add("title", FormatDateTime(j.LastRun))
+        '        lbl_timeStamp.InnerText = "Last Sync: " + FormatDateTime(j.LastRun.ToString)
+        '    Else
+        '        lbl_timeStamp.InnerText = "Never stopped"
+        '    End If
 
 
+        '    lbl_jobStatus.Text = "Job is:" + j.JobStatues
+        '    If j.JobStatues <> "Running" Then
+        '        If j.NextRun IsNot Nothing Then
+        '            lbl_next.Attributes.Add("datetime", FormatDateTime(j.NextRun))
+        '            lbl_next.Attributes.Add("title", FormatDateTime(j.NextRun))
+        '            lbl_next.InnerText = "Next Sync: " + FormatDateTime(j.NextRun.ToString)
+        '        Else
+        '            lbl_next.Visible = False
+        '        End If
+        '    Else
 
-            Dim s As String
+        '        lbl_next.Visible = False
+        '    End If
+
+
+
+        Dim s As String
             For Each l In tnl
 
                 n1 = g.GetRowCount(hq, l.TableName, l.WhereCondtion)
@@ -130,10 +130,10 @@
             Next
 
 
-        Else
+        'Else
 
-            lbl_jobStatus.Text = "job information not found!"
-        End If
+        '    lbl_jobStatus.Text = "job information not found!"
+        'End If
 
 
 

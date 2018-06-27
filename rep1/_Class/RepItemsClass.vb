@@ -88,6 +88,16 @@ Public Class GetClass
             getRepItem.Add(New ItemName("branch_sales"))
             getRepItem.Add(New ItemName("branch_stock_balance"))
 
+        ElseIf value = BranchEnum.Bmasoud Then
+            getRepItem.Add(New ItemName("branch_account"))
+            getRepItem.Add(New ItemName("branch_order"))
+            getRepItem.Add(New ItemName("branch_order_items"))
+            getRepItem.Add(New ItemName("branch_inventory"))
+            getRepItem.Add(New ItemName("branch_pur_request"))
+            getRepItem.Add(New ItemName("branch_pur_request_items"))
+            getRepItem.Add(New ItemName("branch_stock_balance"))
+            getRepItem.Add(New ItemName("branch_sales"))
+
         End If
 
     End Function
@@ -381,6 +391,34 @@ Public Class GetClass
                     getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 205 "))
             End Select
 
+        ElseIf br = BranchEnum.Bmasoud Then
+            Select Case repName
+                Case "branch_account"
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det", "WHERE branch = 506"))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_det_local", "WHERE branch = 506"))
+                    getTablesNames.Add(New TablesNames("acc_cash_in_out_hed", "WHERE branch = 506 and   [rev_flag] = 1"))
+                    getTablesNames.Add(New TablesNames("acc_trn_det", "WHERE location  = 506  and journal_type in (2,8,4) and doctype not in (2010,2050)"))
+                    getTablesNames.Add(New TablesNames("acc_trn_hed", "WHERE location = 506  and journal_type in (2,8,4) and doctype not in (2010,2050) and [review_flag] = 1"))
+                Case "branch_inventory"
+                    getTablesNames.Add(New TablesNames("stk_inventory", "WHERE branch = 506 "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_items", "WHERE branch = 506 "))
+                    getTablesNames.Add(New TablesNames("stk_inventory_prepare", "WHERE branch = 506 "))
+                Case "branch_order"
+                    getTablesNames.Add(New TablesNames("stk_order", "WHERE branch = 506   and posting = 1"))
+                Case "branch_order_items"
+                    getTablesNames.Add(New TablesNames("stk_order_items", "WHERE branch = 506 "))
+                Case "branch_pur_request"
+                    getTablesNames.Add(New TablesNames("pur_request", "WHERE branch =506 and doctype = 1060 and [review] = 1 "))
+                Case "branch_pur_request_items"
+                    getTablesNames.Add(New TablesNames("pur_request_items", "WHERE branch =506 and doctype = 1060"))
+                Case "branch_sales"
+                    getTablesNames.Add(New TablesNames("sal_invoice_payments", "WHERE branch = 506  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices", "WHERE branch = 506  "))
+                    getTablesNames.Add(New TablesNames("sal_invoices_items", "WHERE branch = 506 "))
+                Case "branch_stock_balance"
+                    getTablesNames.Add(New TablesNames("stk_mtod", "WHERE branch = 506 and  doctype =0  and transyear >= 2017"))
+                    getTablesNames.Add(New TablesNames("sys_closing", "WHERE location  = 506 and  doctype =2913 "))
+            End Select
         End If
 
 
@@ -423,9 +461,9 @@ Public Class GetClass
         Public Overloads Function HQ() As BranchsClass
             HQ = New BranchsClass With {
                 .BranchName = "HQ",
-                .Connection = New SqlConnection("Data Source=HQ-DB01;Initial Catalog=Retail;Persist Security Info=True;User ID=sa;Password=retipr"),
+                .Connection = New SqlConnection("Data Source=FUJAVG;Initial Catalog=Retail;Persist Security Info=True;User ID=dbuser;Password=retipr"),
                 .DBname = "Retail",
-                .ServerName = "HQ-DB01",
+                .ServerName = "FUJAVG",
                 .ID = 201,
                 .CodeName = ""
             }
@@ -514,6 +552,18 @@ Public Class GetClass
 
 
         End Function
+        Public Overloads Function BMasoud() As BranchsClass
+
+            BMasoud = New BranchsClass With {
+              .BranchName = "Beer Masoud",
+              .Connection = New SqlConnection("Data Source=bmasoud-db01;Initial Catalog=Retail;Persist Security Info=True;User ID=sa;Password=retipr"),
+              .DBname = "Retail",
+              .ServerName = "bmasoud-DB01",
+           .ID = 506,
+           .CodeName = "bmasoud-DB01"}
+
+
+        End Function
         Public Function withID(id As Int16) As BranchsClass
             Select Case id
                 Case 502
@@ -530,6 +580,8 @@ Public Class GetClass
                     Return Falaky()
                 Case 505
                     Return Fadaly()
+                Case 506
+                    Return BMasoud()
                 Case Else
                     Return Nothing
 
@@ -728,6 +780,7 @@ Public Enum BranchEnum
     Falaky = 504
     Fadaly = 505
     Abes = 205
+    Bmasoud = 506
 End Enum
 Public Class msgBox
     Public Shared Sub show(txt As String)
